@@ -7,8 +7,6 @@ An example document with no existing table of contents, but headings of varying 
 
 ### Another
 
-### Maybe one more
-
 ## Heading 2
 
 ## Heading 3
