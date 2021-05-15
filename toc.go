@@ -5,7 +5,6 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -49,13 +48,13 @@ func (t *Toc) String() string {
 	return string(t.Bytes())
 }
 
-// AddToc inserts a table of contents into an existing markdown document
-func AddToc(f *os.File, t Toc, overwrite bool) error {
+// Insert adds a table of contents to an existing document
+func Insert(f *os.File, t Toc, overwrite bool) error {
 	return nil
 }
 
-// ParseToc extacts table of contents attributes from an existing document
-func ParseToc(f *os.File) (Toc, error) {
+// Parse extacts table of contents attributes from an existing document
+func Parse(f *os.File) (*Toc, error) {
 	toc := Toc{Heading: defaultTocHeading}
 
 	scanner := bufio.NewScanner(f)
@@ -75,10 +74,10 @@ func ParseToc(f *os.File) (Toc, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		return &toc, err
 	}
 
-	return toc, nil
+	return &toc, nil
 }
 
 // textToLink returns the header link formatted version of a string

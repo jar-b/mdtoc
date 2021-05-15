@@ -31,7 +31,7 @@ func main() {
 	}
 
 	if dryRun {
-		toc, err := mdtoc.ParseToc(f)
+		toc, err := mdtoc.Parse(f)
 		if err != nil {
 			log.Fatal(err)
 		}
