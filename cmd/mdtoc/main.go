@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/jar-b/mdtoc"
 )
@@ -19,12 +20,18 @@ func main() {
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")
 
 	flag.Parse()
+
 	if file == "" {
 		log.Fatal("-file flag is required")
 	}
 
+	f, err := os.Open(file)
+	if err != nil {
+		log.Fatalf("opening file: %v", err)
+	}
+
 	if dryRun {
-		toc, err := mdtoc.ParseToc(file)
+		toc, err := mdtoc.ParseToc(f)
 		if err != nil {
 			log.Fatal(err)
 		}
