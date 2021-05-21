@@ -5,7 +5,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"os"
+	"io"
 	"regexp"
 	"strings"
 )
@@ -49,12 +49,12 @@ func (t *Toc) String() string {
 }
 
 // Insert adds a table of contents to an existing document
-func Insert(f *os.File, t Toc, overwrite bool) error {
+func Insert(f io.Reader, t *Toc, overwrite bool) error {
 	return nil
 }
 
 // Parse extacts table of contents attributes from an existing document
-func Parse(f *os.File) (*Toc, error) {
+func Parse(f io.Reader) (*Toc, error) {
 	toc := Toc{Heading: defaultTocHeading}
 
 	scanner := bufio.NewScanner(f)
