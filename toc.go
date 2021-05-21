@@ -84,6 +84,7 @@ func Parse(f *os.File) (*Toc, error) {
 //
 // ex. `Header One Two` = `header-one-two`
 func textToLink(s string) string {
+	// TODO: find a more comprehensive/formally documented list of these
 	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "")
 	return strings.ToLower(rep.Replace(s))
 }
