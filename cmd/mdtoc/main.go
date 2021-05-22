@@ -25,10 +25,11 @@ func main() {
 		log.Fatal("-file flag is required")
 	}
 
-	f, err := os.Open(file)
+	f, err := os.OpenFile(file, os.O_RDWR, 0664)
 	if err != nil {
 		log.Fatalf("opening file: %v", err)
 	}
+	defer f.Close()
 
 	if dryRun {
 		toc, err := mdtoc.Parse(f)
@@ -36,5 +37,35 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Println(toc.String())
+	} else {
+		b, err := mdtoc.Add(f, force)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = overwrite(f, b)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+}
+
+// overrwrite trucates an existing file and replaces with the content of b
+func overwrite(f *os.File, b []byte) error {
+	_, err := f.Seek(0, 0)
+	if err != nil {
+		return err
+	}
+
+	err = f.Truncate(0)
+	if err != nil {
+		return err
+	}
+
+	_, err = f.Write(b)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
