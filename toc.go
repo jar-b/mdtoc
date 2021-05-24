@@ -4,6 +4,7 @@ package mdtoc
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
@@ -12,6 +13,10 @@ import (
 var (
 	// HeadingRegex is the expression which will match non-title heading lines
 	HeadingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
+
+	// ExistingTocError is thrown if the provided document already contains a mdtoc-generated
+	// table of contents
+	ExistingTocError = errors.New("document has existing table of contents")
 
 	tocBegin = "<!---mdtoc begin--->"
 	tocEnd   = "<!---mdtoc end--->"
@@ -63,6 +68,9 @@ func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 		// handle any previously existing toc's
 		// begin comment, set flag and skip
 		if strings.EqualFold(tocBegin, scanner.Text()) {
+			if !force {
+				return nil, ExistingTocError
+			}
 			inOld = true
 			continue
 		}

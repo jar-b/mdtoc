@@ -41,6 +41,9 @@ func main() {
 
 	new, err := mdtoc.Add(b, toc, force)
 	if err != nil {
+		if err == mdtoc.ExistingTocError {
+			log.Fatalf("%s. Use the -force flag to force overwrite.\n", err.Error())
+		}
 		log.Fatalf("adding toc: %v", err)
 	}
 
