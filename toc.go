@@ -43,7 +43,7 @@ func (t *Toc) Bytes() []byte {
 	for _, b := range t.Bullets {
 		w.WriteString(fmt.Sprintf("%s* [%s](#%s)\n", strings.Repeat(" ", b.Indent*2), b.Text, b.Link))
 	}
-	w.WriteString(fmt.Sprintf("%s\n\n", tocEnd))
+	w.WriteString(fmt.Sprintf("%s\n", tocEnd))
 
 	return w.Bytes()
 }
