@@ -10,19 +10,18 @@ import (
 )
 
 var (
-	file          string
 	force, dryRun bool
 )
 
 func main() {
-	flag.StringVar(&file, "file", "", "file to add contents (required)")
 	flag.BoolVar(&force, "force", false, "force overwrite of existing contents (optional)")
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")
 	flag.Parse()
 
-	if file == "" {
-		log.Fatal("-file flag is required")
+	if flag.NArg() != 1 {
+		log.Fatal("unexpected number of args")
 	}
+	file := flag.Arg(0)
 
 	b, err := os.ReadFile(file)
 	if err != nil {
