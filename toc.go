@@ -52,15 +52,34 @@ func (t *Toc) String() string {
 func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 	var new []byte
 	buf := bytes.NewBuffer(new)
-	tocAdded := false
+
+	inOld := false
+	newAdded := false
 
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
-		// insert toc just before the first non-title heading
-		if !tocAdded && HeadingRegex.FindSubmatch(scanner.Bytes()) != nil {
+
+		// handle any previously existing toc's
+		// begin comment, set flag and skip
+		if strings.EqualFold(tocBegin, scanner.Text()) {
+			inOld = true
+			continue
+		}
+		// end comment, reset flag and skip
+		if inOld && strings.EqualFold(scanner.Text(), tocEnd) {
+			inOld = false
+			continue
+		}
+		// old toc line, skip
+		if inOld {
+			continue
+		}
+
+		// when the first non-title heading is encoutered, insert new toc just before it
+		if !newAdded && HeadingRegex.FindSubmatch(scanner.Bytes()) != nil {
 			buf.Write(toc.Bytes())
-			tocAdded = true
+			newAdded = true
 		}
 
 		buf.Write(scanner.Bytes())
