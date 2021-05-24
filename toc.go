@@ -5,8 +5,6 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"io"
-	"os"
 	"regexp"
 	"strings"
 )
@@ -51,24 +49,15 @@ func (t *Toc) String() string {
 }
 
 // Add returns a copy of an existing document with a table of contents inserted
-func Add(f *os.File, force bool) ([]byte, error) {
-	toc, err := Parse(f)
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = f.Seek(0, 0) // reset the file location to read again
-	if err != nil {
-		return nil, err
-	}
-
-	var b []byte
-	buf := bytes.NewBuffer(b)
+func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
+	var new []byte
+	buf := bytes.NewBuffer(new)
 	tocAdded := false
 
-	scanner := bufio.NewScanner(f)
+	r := bytes.NewReader(b)
+	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
-		// insert contents just before the first non-title heading
+		// insert toc just before the first non-title heading
 		if !tocAdded && HeadingRegex.FindSubmatch(scanner.Bytes()) != nil {
 			buf.Write(toc.Bytes())
 			tocAdded = true
@@ -86,9 +75,10 @@ func Add(f *os.File, force bool) ([]byte, error) {
 }
 
 // Parse extacts table of contents attributes from an existing document
-func Parse(r io.Reader) (*Toc, error) {
+func Parse(b []byte) (*Toc, error) {
 	toc := Toc{Heading: defaultTocHeading}
 
+	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		m := HeadingRegex.FindStringSubmatch(scanner.Text())

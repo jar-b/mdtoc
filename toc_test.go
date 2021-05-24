@@ -2,7 +2,6 @@ package mdtoc
 
 import (
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -32,12 +31,12 @@ func Test_textToLink(t *testing.T) {
 func TestParse(t *testing.T) {
 	tt := []struct {
 		name string
-		in   string
+		in   []byte
 		want *Toc
 	}{
 		{
 			"basic",
-			"# Title\n\n## Heading 1\n\n### Heading 2",
+			[]byte("# Title\n\n## Heading 1\n\n### Heading 2"),
 			&Toc{
 				Heading: defaultTocHeading,
 				Bullets: []Bullet{
@@ -49,9 +48,7 @@ func TestParse(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			f := strings.NewReader(tc.in)
-
-			got, err := Parse(f)
+			got, err := Parse(tc.in)
 			if err != nil {
 				t.Fatalf("%v", err)
 			}
