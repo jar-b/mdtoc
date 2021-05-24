@@ -10,10 +10,11 @@ import (
 )
 
 var (
-	// HeadingRegex is the expression which will match heading lines
+	// HeadingRegex is the expression which will match non-title heading lines
 	HeadingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
-	defaultTocHeading = "## Table of Contents"
+	tocBegin = "<!---mdtoc begin--->"
+	tocEnd   = "<!---mdtoc end--->"
 )
 
 // Bullet represents a single line in the table of contents
@@ -25,7 +26,6 @@ type Bullet struct {
 
 // Toc stores table of contents metadata
 type Toc struct {
-	Heading string
 	Bullets []Bullet
 }
 
@@ -34,11 +34,11 @@ func (t *Toc) Bytes() []byte {
 	var buf []byte
 	w := bytes.NewBuffer(buf)
 
-	w.WriteString(fmt.Sprintf("%s\n\n", t.Heading))
+	w.WriteString(fmt.Sprintf("%s\n", tocBegin))
 	for _, b := range t.Bullets {
 		w.WriteString(fmt.Sprintf("%s* [%s](#%s)\n", strings.Repeat(" ", b.Indent*2), b.Text, b.Link))
 	}
-	w.WriteString("\n")
+	w.WriteString(fmt.Sprintf("%s\n\n", tocEnd))
 
 	return w.Bytes()
 }
@@ -76,7 +76,7 @@ func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 
 // Parse extacts table of contents attributes from an existing document
 func Parse(b []byte) (*Toc, error) {
-	toc := Toc{Heading: defaultTocHeading}
+	toc := Toc{}
 
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)

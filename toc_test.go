@@ -38,7 +38,6 @@ func TestParse(t *testing.T) {
 			"basic",
 			[]byte("# Title\n\n## Heading 1\n\n### Heading 2"),
 			&Toc{
-				Heading: defaultTocHeading,
 				Bullets: []Bullet{
 					{Indent: 0, Text: "Heading 1", Link: "heading-1"},
 					{Indent: 1, Text: "Heading 2", Link: "heading-2"},
