@@ -14,9 +14,9 @@ var (
 	// HeadingRegex is the expression which will match non-title heading lines
 	HeadingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
-	// ExistingTocError is thrown if the provided document already contains a mdtoc-generated
+	// ErrExistingToc is thrown if the provided document already contains a mdtoc-generated
 	// table of contents
-	ExistingTocError = errors.New("document has existing table of contents")
+	ErrExistingToc = errors.New("document has existing table of contents")
 
 	tocBegin = "<!---mdtoc begin--->"
 	tocEnd   = "<!---mdtoc end--->"
@@ -69,7 +69,7 @@ func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 		// begin comment, set flag and skip
 		if strings.EqualFold(tocBegin, scanner.Text()) {
 			if !force {
-				return nil, ExistingTocError
+				return nil, ErrExistingToc
 			}
 			inOld = true
 			continue
