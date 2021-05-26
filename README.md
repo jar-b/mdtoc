@@ -7,7 +7,7 @@ Generate a table of contents for an existing markdown document. The table of con
   * [Installation](#installation)
   * [Usage](#usage)
 * [Library](#library)
-  * [Usage](#usage-2)
+  * [Usage](#usage-1)
 <!---mdtoc end--->
 ## CLI
 

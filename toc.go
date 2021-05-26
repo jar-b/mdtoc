@@ -126,6 +126,7 @@ func Parse(b []byte) (*Toc, error) {
 		return &toc, err
 	}
 
+	toc.updateRepeatLinks()
 	return &toc, nil
 }
 
@@ -136,4 +137,24 @@ func textToLink(s string) string {
 	// TODO: find a more comprehensive/formally documented list of these
 	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "")
 	return strings.ToLower(rep.Replace(s))
+}
+
+// updateRepeatLinks fixes the generated link text if the generated text is repeated
+// in the same contents
+func (t *Toc) updateRepeatLinks() {
+	lookup := make(map[string]int, len(t.Bullets))
+
+	for i, b := range t.Bullets {
+		// if key already exists in the lookup, the  link text needs to append a `-n`,
+		// where `n` is the number of previous occurences. if the key does not already
+		// exist, add a new key and set occurences to 1.
+		if val, ok := lookup[b.Link]; ok {
+			key := b.Link // preserve the original lookup key
+			t.Bullets[i].Link = fmt.Sprintf("%s-%d", b.Link, val)
+			lookup[key]++
+			continue
+		}
+
+		lookup[b.Link] = 1
+	}
 }

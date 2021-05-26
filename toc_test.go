@@ -12,6 +12,8 @@ func TestAdd(t *testing.T) {
 	basicToc, _ := os.ReadFile("testdata/basic_toc.md")
 	special, _ := os.ReadFile("testdata/special.md")
 	specialToc, _ := os.ReadFile("testdata/special_toc.md")
+	repeat, _ := os.ReadFile("testdata/repeat.md")
+	repeatToc, _ := os.ReadFile("testdata/repeat_toc.md")
 
 	tt := []struct {
 		name    string
@@ -22,6 +24,7 @@ func TestAdd(t *testing.T) {
 	}{
 		{"basic", basic, false, basicToc, nil},
 		{"special", special, false, specialToc, nil},
+		{"repeat", repeat, false, repeatToc, nil},
 		{"existing without force", basicToc, false, nil, ErrExistingToc},
 		{"existing with force", basicToc, true, basicToc, nil},
 	}
