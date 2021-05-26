@@ -1,12 +1,17 @@
 # mdtoc
 Generate a table of contents for an existing markdown document. The table of contents will link to anchor tags, and preserve the level of nesting. 
 
+
 <!---mdtoc begin--->
-* [Installation](#installation)
-* [Usage](#usage)
-  * [Examples](#examples)
+* [CLI](#cli)
+  * [Installation](#installation)
+  * [Usage](#usage)
+* [Library](#library)
+  * [Usage](#usage-2)
 <!---mdtoc end--->
-## Installation
+## CLI
+
+### Installation
 
 Via `go get`:
 
@@ -14,7 +19,7 @@ Via `go get`:
 go get github.com/jar-b/mdtoc/cmd/mdtoc
 ```
 
-## Usage
+### Usage
 
 ```
 $ mdtoc -h
@@ -25,7 +30,7 @@ Usage of mdtoc:
         force overwrite of existing contents (optional)
 ```
 
-### Examples
+Examples:
 
 ```sh
 # add new
@@ -38,3 +43,36 @@ mdtoc -dry-run mydoc.md
 mdtoc -force mydoc.md
 ```
 
+## Library
+
+`import github.com/jar-b/mdtoc`
+
+### Usage
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/jar-b/mdtoc"
+)
+
+func main() {
+	b := []byte("# Title\ndescription text\n\n## Heading 1\ntext\n## Heading 2\nmore text")
+
+	toc, err := mdtoc.Parse(b)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	new, err := mdtoc.Add(b, toc, false)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// do something with `new`
+	fmt.Println(string(new))
+}
+```
