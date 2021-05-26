@@ -13,6 +13,14 @@ var (
 	force, dryRun bool
 )
 
+func init() {
+	// slightly better usage output
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [flags] [filename]\n\nFlags:\n", os.Args[0])
+		flag.PrintDefaults()
+	}
+}
+
 func main() {
 	flag.BoolVar(&force, "force", false, "force overwrite of existing contents (optional)")
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")

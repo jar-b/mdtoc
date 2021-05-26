@@ -23,11 +23,13 @@ go get github.com/jar-b/mdtoc/cmd/mdtoc
 
 ```
 $ mdtoc -h
-Usage of mdtoc:
+Usage: mdtoc [flags] [filename]
+
+Flags:
   -dry-run
-        print generated contents, but do not write to file (optional)
+    	print generated contents, but do not write to file (optional)
   -force
-        force overwrite of existing contents (optional)
+    	force overwrite of existing contents (optional)
 ```
 
 Examples:
