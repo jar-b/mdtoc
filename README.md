@@ -32,6 +32,8 @@ Flags:
     	print generated contents, but do not write to file (optional)
   -force
     	force overwrite of existing contents (optional)
+  -out string
+        output file (optional, defaults to adding to source file)
 ```
 
 Examples:
