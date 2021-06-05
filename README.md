@@ -1,4 +1,6 @@
 # mdtoc
+[![Go Reference](https://pkg.go.dev/badge/github.com/jar-b/mdtoc.svg)](https://pkg.go.dev/github.com/jar-b/mdtoc)
+
 Generate a table of contents for an existing markdown document. The table of contents will link to anchor tags, and preserve the level of nesting. 
 
 
