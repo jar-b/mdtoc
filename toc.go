@@ -135,7 +135,7 @@ func Parse(b []byte) (*Toc, error) {
 // ex. `Header One Two` = `header-one-two`
 func textToLink(s string) string {
 	// TODO: find a more comprehensive/formally documented list of these
-	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "")
+	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "", "`", "", `"`, "", `'`, "")
 	return strings.ToLower(rep.Replace(s))
 }
 

@@ -13,3 +13,9 @@ An example document with headers including special/uncommon characters to test g
 
 ## With:Colon;SemiColon
 
+## `With backticks`
+
+## "With double quotes"
+
+## 'With single quotes'
+
