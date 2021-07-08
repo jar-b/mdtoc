@@ -19,3 +19,4 @@ An example document with headers including special/uncommon characters to test g
 
 ## 'With single quotes'
 
+## {With braces}

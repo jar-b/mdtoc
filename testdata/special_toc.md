@@ -11,6 +11,7 @@ An example document with headers including special/uncommon characters to test g
 * [`With backticks`](#with-backticks)
 * ["With double quotes"](#with-double-quotes)
 * ['With single quotes'](#with-single-quotes)
+* [{With braces}](#with-braces)
 <!---mdtoc end--->
 ## With/Slash
 
@@ -30,3 +31,4 @@ An example document with headers including special/uncommon characters to test g
 
 ## 'With single quotes'
 
+## {With braces}
