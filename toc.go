@@ -146,8 +146,8 @@ func (t *Toc) updateRepeatLinks() {
 
 	for i, b := range t.Bullets {
 		// if key already exists in the lookup, the  link text needs to append a `-n`,
-		// where `n` is the number of previous occurences. if the key does not already
-		// exist, add a new key and set occurences to 1.
+		// where `n` is the number of previous occurrences. if the key does not already
+		// exist, add a new key and set occurrences to 1.
 		if val, ok := lookup[b.Link]; ok {
 			key := b.Link // preserve the original lookup key
 			t.Bullets[i].Link = fmt.Sprintf("%s-%d", b.Link, val)
