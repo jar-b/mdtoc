@@ -2,7 +2,7 @@
 
 .PHONY: build
 build: clean ## Build binaries
-	@go build -o mdtoc cmd/mdtoc/main.go
+	@go build -o mdtoc ./cmd/mdtoc/main.go
 
 .PHONY: clean
 clean: ## Clean up binaries
