@@ -11,19 +11,19 @@ import (
 )
 
 var (
-	// HeadingRegex is the expression which will match non-title heading lines
-	HeadingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
-
 	// ErrExistingToc is thrown if the provided document already contains a mdtoc-generated
 	// table of contents
 	ErrExistingToc = errors.New("document has existing table of contents")
+
+	// headingRegex is the expression which will match non-title heading lines
+	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
 	tocBegin = "<!---mdtoc begin--->"
 	tocEnd   = "<!---mdtoc end--->"
 )
 
-// Bullet represents a single line in the table of contents
-type Bullet struct {
+// Item represents a single line in the table of contents
+type Item struct {
 	Indent int
 	Text   string
 	Link   string
@@ -31,7 +31,7 @@ type Bullet struct {
 
 // Toc stores table of contents metadata
 type Toc struct {
-	Bullets []Bullet
+	Items []Item
 }
 
 // Bytes returns a markdown formatted slice of bytes
@@ -40,8 +40,8 @@ func (t *Toc) Bytes() []byte {
 	w := bytes.NewBuffer(buf)
 
 	w.WriteString(fmt.Sprintf("%s\n", tocBegin))
-	for _, b := range t.Bullets {
-		w.WriteString(fmt.Sprintf("%s* [%s](#%s)\n", strings.Repeat(" ", b.Indent*2), b.Text, b.Link))
+	for _, item := range t.Items {
+		w.WriteString(fmt.Sprintf("%s* [%s](#%s)\n", strings.Repeat(" ", item.Indent*2), item.Text, item.Link))
 	}
 	w.WriteString(fmt.Sprintf("%s\n", tocEnd))
 
@@ -53,8 +53,8 @@ func (t *Toc) String() string {
 	return string(t.Bytes())
 }
 
-// Add returns a copy of an existing document with a table of contents inserted
-func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
+// Insert returns a copy of an existing document with a table of contents inserted
+func (t *Toc) Insert(b []byte, force bool) ([]byte, error) {
 	var new []byte
 	buf := bytes.NewBuffer(new)
 
@@ -85,8 +85,8 @@ func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 		}
 
 		// when the first non-title heading is encoutered, insert new toc just before it
-		if !newAdded && HeadingRegex.FindSubmatch(scanner.Bytes()) != nil {
-			buf.Write(toc.Bytes())
+		if !newAdded && headingRegex.FindSubmatch(scanner.Bytes()) != nil {
+			buf.Write(t.Bytes())
 			newAdded = true
 		}
 
@@ -101,20 +101,20 @@ func Add(b []byte, toc *Toc, force bool) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-// Parse extacts table of contents attributes from an existing document
-func Parse(b []byte) (*Toc, error) {
+// New extacts table of contents attributes from an existing document
+func New(b []byte) (*Toc, error) {
 	toc := Toc{}
 
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
-		m := HeadingRegex.FindStringSubmatch(scanner.Text())
+		m := headingRegex.FindStringSubmatch(scanner.Text())
 		if len(m) == 3 {
 			// m[0]: Full regular expression match
 			// m[1]: First match group (two or more `#` characters)
 			// m[2]: Second match group (text of heading)
-			toc.Bullets = append(toc.Bullets,
-				Bullet{
+			toc.Items = append(toc.Items,
+				Item{
 					Indent: len(m[1]) - 2,
 					Text:   m[2],
 					Link:   textToLink(m[2]),
@@ -142,19 +142,19 @@ func textToLink(s string) string {
 // updateRepeatLinks fixes the generated link text if the generated text is repeated
 // in the same contents
 func (t *Toc) updateRepeatLinks() {
-	lookup := make(map[string]int, len(t.Bullets))
+	lookup := make(map[string]int, len(t.Items))
 
-	for i, b := range t.Bullets {
+	for i, item := range t.Items {
 		// if key already exists in the lookup, the  link text needs to append a `-n`,
 		// where `n` is the number of previous occurrences. if the key does not already
 		// exist, add a new key and set occurrences to 1.
-		if val, ok := lookup[b.Link]; ok {
-			key := b.Link // preserve the original lookup key
-			t.Bullets[i].Link = fmt.Sprintf("%s-%d", b.Link, val)
+		if val, ok := lookup[item.Link]; ok {
+			key := item.Link // preserve the original lookup key
+			t.Items[i].Link = fmt.Sprintf("%s-%d", item.Link, val)
 			lookup[key]++
 			continue
 		}
 
-		lookup[b.Link] = 1
+		lookup[item.Link] = 1
 	}
 }

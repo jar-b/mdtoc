@@ -62,26 +62,18 @@ mdtoc -force mydoc.md
 package main
 
 import (
-	"fmt"
-	"log"
+        "fmt"
 
-	"github.com/jar-b/mdtoc"
+        "github.com/jar-b/mdtoc"
 )
 
 func main() {
-	b := []byte("# Title\ndescription text\n\n## Heading 1\ntext\n## Heading 2\nmore text")
+        b := []byte("# Title\ndescription text\n\n## Heading 1\ntext\n## Heading 2\nmore text")
 
-	toc, err := mdtoc.Parse(b)
-	if err != nil {
-		log.Fatal(err)
-	}
+        toc, _ := mdtoc.New(b)
+        out, _ := toc.Insert(b, false)
 
-	new, err := mdtoc.Add(b, toc, false)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// do something with `new`
-	fmt.Println(string(new))
+        // do something with `out`
+        fmt.Println(string(out))
 }
 ```

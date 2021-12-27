@@ -1,9 +1,15 @@
 # Changelog
 
-## Unreleased
+
+## v0.2.0
 
 ### Added
 - Github action workflow for `go build`, `go test` commands
+
+### Changed
+- Removed unneccesary constant exports
+- Modified exported function names for clarity
+- Updated go library usage docs
 
 
 ## v0.1.2

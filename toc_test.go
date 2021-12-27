@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestAdd(t *testing.T) {
+func TestInsert(t *testing.T) {
 	// read testdata into memory
 	basic, _ := os.ReadFile("testdata/basic.md")
 	basicToc, _ := os.ReadFile("testdata/basic_toc.md")
@@ -31,12 +31,12 @@ func TestAdd(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			toc, err := Parse(tc.in)
+			toc, err := New(tc.in)
 			if err != nil {
 				t.Fatalf("parsing toc: %v", err)
 			}
 
-			got, gotErr := Add(tc.in, toc, tc.force)
+			got, gotErr := toc.Insert(tc.in, tc.force)
 			if !reflect.DeepEqual(tc.want, got) {
 				t.Fatalf("expected: %s got: %s", string(got), string(tc.want))
 			}
@@ -47,7 +47,7 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestParse(t *testing.T) {
+func TestNew(t *testing.T) {
 	tt := []struct {
 		name string
 		in   []byte
@@ -57,7 +57,7 @@ func TestParse(t *testing.T) {
 			"basic",
 			[]byte("# Title\n\n## Heading 1\n\n### Heading 2"),
 			&Toc{
-				Bullets: []Bullet{
+				Items: []Item{
 					{Indent: 0, Text: "Heading 1", Link: "heading-1"},
 					{Indent: 1, Text: "Heading 2", Link: "heading-2"},
 				}},
@@ -66,7 +66,7 @@ func TestParse(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := Parse(tc.in)
+			got, err := New(tc.in)
 			if err != nil {
 				t.Fatalf("%v", err)
 			}

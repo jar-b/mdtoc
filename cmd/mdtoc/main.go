@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("reading file: %v", err)
 	}
 
-	toc, err := mdtoc.Parse(b)
+	toc, err := mdtoc.New(b)
 	if err != nil {
 		log.Fatalf("parsing file: %v", err)
 	}
@@ -48,7 +48,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	new, err := mdtoc.Add(b, toc, force)
+	new, err := toc.Insert(b, force)
 	if err != nil {
 		if err == mdtoc.ErrExistingToc {
 			log.Fatalf("%s. Use the -force flag to force overwrite.\n", err.Error())
