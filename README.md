@@ -1,8 +1,8 @@
 # mdtoc
-[![Go Reference](https://pkg.go.dev/badge/github.com/jar-b/mdtoc.svg)](https://pkg.go.dev/github.com/jar-b/mdtoc)
-[![Go Report Card](https://goreportcard.com/badge/github.com/jar-b/mdtoc)](https://goreportcard.com/report/github.com/jar-b/mdtoc)
-[![go-build](https://github.com/jar-b/mdtoc/actions/workflows/go.yml/badge.svg)](https://github.com/jar-b/mdtoc/actions/workflows/go.yml)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jar-b/mdtoc)
+[![build](https://github.com/jar-b/mdtoc/actions/workflows/build.yml/badge.svg)](https://github.com/jar-b/mdtoc/actions/workflows/build.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jar-b/mdtoc)](https://goreportcard.com/report/github.com/jar-b/mdtoc)
+[![Go Reference](https://pkg.go.dev/badge/github.com/jar-b/mdtoc.svg)](https://pkg.go.dev/github.com/jar-b/mdtoc)
 
 Generate a table of contents for an existing markdown document. The table of contents will link to anchor tags, and preserve the level of nesting. 
 
