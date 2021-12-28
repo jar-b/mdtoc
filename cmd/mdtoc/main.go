@@ -38,17 +38,16 @@ func main() {
 		log.Fatalf("reading file: %v", err)
 	}
 
-	toc, err := mdtoc.New(b)
-	if err != nil {
-		log.Fatalf("parsing file: %v", err)
-	}
-
 	if dryRun {
+		toc, err := mdtoc.New(b)
+		if err != nil {
+			log.Fatalf("parsing file: %v", err)
+		}
 		fmt.Println(toc.String())
 		os.Exit(0)
 	}
 
-	new, err := toc.Insert(b, force)
+	withToc, err := mdtoc.Insert(b, force)
 	if err != nil {
 		if err == mdtoc.ErrExistingToc {
 			log.Fatalf("%s. Use the -force flag to force overwrite.\n", err.Error())
@@ -61,7 +60,7 @@ func main() {
 		target = out
 	}
 
-	err = os.WriteFile(target, new, 0644)
+	err = os.WriteFile(target, withToc, 0644)
 	if err != nil {
 		log.Fatalf("writing file: %v", err)
 	}

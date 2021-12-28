@@ -34,12 +34,7 @@ func TestInsert(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			toc, err := New(tc.in)
-			if err != nil {
-				t.Fatalf("parsing toc: %v", err)
-			}
-
-			got, gotErr := toc.Insert(tc.in, tc.force)
+			got, gotErr := Insert(tc.in, tc.force)
 			if !reflect.DeepEqual(tc.want, got) {
 				t.Fatalf("expected: %s got: %s", string(got), string(tc.want))
 			}

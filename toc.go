@@ -54,7 +54,12 @@ func (t *Toc) String() string {
 }
 
 // Insert returns a copy of an existing document with a table of contents inserted
-func (t *Toc) Insert(b []byte, force bool) ([]byte, error) {
+func Insert(b []byte, force bool) ([]byte, error) {
+	toc, err := New(b)
+	if err != nil {
+		return b, err
+	}
+
 	var new []byte
 	buf := bytes.NewBuffer(new)
 
@@ -85,7 +90,7 @@ func (t *Toc) Insert(b []byte, force bool) ([]byte, error) {
 
 		// when the first non-title heading is encoutered, insert new toc just before it
 		if !newAdded && headingRegex.FindSubmatch(scanner.Bytes()) != nil {
-			buf.Write(t.Bytes())
+			buf.Write(toc.Bytes())
 			newAdded = true
 		}
 

@@ -70,10 +70,12 @@ import (
 func main() {
         b := []byte("# Title\ndescription text\n\n## Heading 1\ntext\n## Heading 2\nmore text")
 
+        // extract just the proposed TOC ("dry-run")
         toc, _ := mdtoc.New(b)
-        out, _ := toc.Insert(b, false)
+        fmt.Println(toc.String())
 
-        // do something with `out`
+        // OR insert TOC into an existing document
+        out, _ := mdtoc.Insert(b, false)
         fmt.Println(string(out))
 }
 ```
