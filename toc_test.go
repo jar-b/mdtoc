@@ -14,6 +14,8 @@ func TestInsert(t *testing.T) {
 	specialToc, _ := os.ReadFile("testdata/special_toc.md")
 	repeat, _ := os.ReadFile("testdata/repeat.md")
 	repeatToc, _ := os.ReadFile("testdata/repeat_toc.md")
+	codeblock, _ := os.ReadFile("testdata/codeblock.md")
+	codeblockToc, _ := os.ReadFile("testdata/codeblock_toc.md")
 
 	tt := []struct {
 		name    string
@@ -25,6 +27,7 @@ func TestInsert(t *testing.T) {
 		{"basic", basic, false, basicToc, nil},
 		{"special", special, false, specialToc, nil},
 		{"repeat", repeat, false, repeatToc, nil},
+		{"code block", codeblock, false, codeblockToc, nil},
 		{"existing without force", basicToc, false, nil, ErrExistingToc},
 		{"existing with force", basicToc, true, basicToc, nil},
 	}

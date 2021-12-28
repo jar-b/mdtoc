@@ -58,8 +58,7 @@ func (t *Toc) Insert(b []byte, force bool) ([]byte, error) {
 	var new []byte
 	buf := bytes.NewBuffer(new)
 
-	inOld := false
-	newAdded := false
+	var inOld, newAdded bool
 
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
@@ -105,9 +104,28 @@ func (t *Toc) Insert(b []byte, force bool) ([]byte, error) {
 func New(b []byte) (*Toc, error) {
 	toc := Toc{}
 
+	var inCodeBlock bool
+
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
+
+		// handle code blocks to ensure `#` are not captured as headings
+		// begin code block, set flag and skip
+		if strings.HasPrefix(scanner.Text(), "```") && !inCodeBlock {
+			inCodeBlock = true
+			continue
+		}
+		// end code block, reset flag and skip
+		if inCodeBlock && strings.HasPrefix(scanner.Text(), "```") {
+			inCodeBlock = false
+			continue
+		}
+		// code block line, skip
+		if inCodeBlock {
+			continue
+		}
+
 		m := headingRegex.FindStringSubmatch(scanner.Text())
 		if len(m) == 3 {
 			// m[0]: Full regular expression match

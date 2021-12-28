@@ -1,6 +1,12 @@
 # Changelog
 
 
+## v0.2.1
+
+### Fixed
+- Ignore lines matching header regex when inside code blocks
+
+
 ## v0.2.0
 
 ### Added
