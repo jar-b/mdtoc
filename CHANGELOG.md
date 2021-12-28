@@ -1,6 +1,16 @@
 # Changelog
 
 
+## v0.3.0
+
+### Added
+- Exclude headings with the `<!--mdtoc: ignore-->` comment
+
+### Changed
+- Simplified `Insert` function signature
+- Updated TOC begin/end comments with proper formatting
+
+
 ## v0.2.1
 
 ### Fixed

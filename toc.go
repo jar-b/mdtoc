@@ -18,8 +18,9 @@ var (
 	// headingRegex is the expression which will match non-title heading lines
 	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
-	tocBegin = "<!--mdtoc: begin-->"
-	tocEnd   = "<!--mdtoc: end-->"
+	tocBegin  = "<!--mdtoc: begin-->"
+	tocEnd    = "<!--mdtoc: end-->"
+	tocIgnore = "<!--mdtoc: ignore-->"
 )
 
 // Item represents a single line in the table of contents
@@ -68,10 +69,11 @@ func Insert(b []byte, force bool) ([]byte, error) {
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
+		line := scanner.Text()
 
 		// handle any previously existing toc's
 		// begin comment, set flag and skip
-		if strings.EqualFold(tocBegin, scanner.Text()) {
+		if strings.EqualFold(tocBegin, line) {
 			if !force {
 				return nil, ErrExistingToc
 			}
@@ -79,7 +81,7 @@ func Insert(b []byte, force bool) ([]byte, error) {
 			continue
 		}
 		// end comment, reset flag and skip
-		if inOld && strings.EqualFold(scanner.Text(), tocEnd) {
+		if inOld && strings.EqualFold(line, tocEnd) {
 			inOld = false
 			continue
 		}
@@ -89,7 +91,7 @@ func Insert(b []byte, force bool) ([]byte, error) {
 		}
 
 		// when the first non-title heading is encoutered, insert new toc just before it
-		if !newAdded && headingRegex.FindSubmatch(scanner.Bytes()) != nil {
+		if !newAdded && headingRegex.FindStringSubmatch(line) != nil {
 			buf.Write(toc.Bytes())
 			newAdded = true
 		}
@@ -114,15 +116,16 @@ func New(b []byte) (*Toc, error) {
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
+		line := scanner.Text()
 
 		// handle code blocks to ensure `#` are not captured as headings
 		// begin code block, set flag and skip
-		if strings.HasPrefix(scanner.Text(), "```") && !inCodeBlock {
+		if strings.HasPrefix(line, "```") && !inCodeBlock {
 			inCodeBlock = true
 			continue
 		}
 		// end code block, reset flag and skip
-		if inCodeBlock && strings.HasPrefix(scanner.Text(), "```") {
+		if inCodeBlock && strings.HasPrefix(line, "```") {
 			inCodeBlock = false
 			continue
 		}
@@ -131,8 +134,13 @@ func New(b []byte) (*Toc, error) {
 			continue
 		}
 
-		m := headingRegex.FindStringSubmatch(scanner.Text())
+		m := headingRegex.FindStringSubmatch(line)
 		if len(m) == 3 {
+			// skip headings with ignore comments
+			if strings.Contains(line, tocIgnore) {
+				continue
+			}
+
 			// m[0]: Full regular expression match
 			// m[1]: First match group (two or more `#` characters)
 			// m[2]: Second match group (text of heading)
