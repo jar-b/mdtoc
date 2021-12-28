@@ -1,7 +1,7 @@
 # Example Document
 An example document with no existing table of contents, but headings of varying levels.
 
-<!---mdtoc begin--->
+<!--mdtoc: begin-->
 * [Heading 1](#heading-1)
   * [A sub-bullet](#a-sub-bullet)
   * [Another](#another)
@@ -10,7 +10,7 @@ An example document with no existing table of contents, but headings of varying 
   * [Nest](#nest)
     * [Nest again](#nest-again)
       * [Nest a third time](#nest-a-third-time)
-<!---mdtoc end--->
+<!--mdtoc: end-->
 ## Heading 1
 
 ### A sub-bullet

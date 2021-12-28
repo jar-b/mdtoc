@@ -18,8 +18,8 @@ var (
 	// headingRegex is the expression which will match non-title heading lines
 	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
-	tocBegin = "<!---mdtoc begin--->"
-	tocEnd   = "<!---mdtoc end--->"
+	tocBegin = "<!--mdtoc: begin-->"
+	tocEnd   = "<!--mdtoc: end-->"
 )
 
 // Item represents a single line in the table of contents

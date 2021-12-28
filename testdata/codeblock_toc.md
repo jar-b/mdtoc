@@ -1,11 +1,11 @@
 # Title
 An example document with code blocks containing `#` characters to verify these are not included as TOC items.
 
-<!---mdtoc begin--->
+<!--mdtoc: begin-->
 * [Heading 1](#heading-1)
 * [Heading 2](#heading-2)
 * [Heading 3](#heading-3)
-<!---mdtoc end--->
+<!--mdtoc: end-->
 ## Heading 1
 
 ```

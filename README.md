@@ -7,13 +7,13 @@
 Generate a table of contents for an existing markdown document. The table of contents will link to anchor tags, and preserve the level of nesting. 
 
 
-<!---mdtoc begin--->
+<!--mdtoc: begin-->
 * [CLI](#cli)
   * [Installation](#installation)
   * [Usage](#usage)
 * [Library](#library)
   * [Usage](#usage-1)
-<!---mdtoc end--->
+<!--mdtoc: end-->
 ## CLI
 
 ### Installation

@@ -1,7 +1,7 @@
 # Example Document
 An example document with headers including special/uncommon characters to test generating links.
 
-<!---mdtoc begin--->
+<!--mdtoc: begin-->
 * [With/Slash](#withslash)
 * [With_Underscore](#with_underscore)
 * [With,Comma](#withcomma)
@@ -12,7 +12,7 @@ An example document with headers including special/uncommon characters to test g
 * ["With double quotes"](#with-double-quotes)
 * ['With single quotes'](#with-single-quotes)
 * [{With braces}](#with-braces)
-<!---mdtoc end--->
+<!--mdtoc: end-->
 ## With/Slash
 
 ## With_Underscore
