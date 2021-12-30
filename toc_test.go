@@ -22,22 +22,22 @@ func TestInsert(t *testing.T) {
 	tt := []struct {
 		name    string
 		in      []byte
-		force   bool
+		cfg     *Config
 		want    []byte
 		wantErr error
 	}{
-		{"basic", basic, false, basicToc, nil},
-		{"special", special, false, specialToc, nil},
-		{"repeat", repeat, false, repeatToc, nil},
-		{"code block", codeblock, false, codeblockToc, nil},
-		{"ignore", ignore, false, ignoreToc, nil},
-		{"existing without force", basicToc, false, nil, ErrExistingToc},
-		{"existing with force", basicToc, true, basicToc, nil},
+		{"basic", basic, DefaultConfig, basicToc, nil},
+		{"special", special, DefaultConfig, specialToc, nil},
+		{"repeat", repeat, DefaultConfig, repeatToc, nil},
+		{"code block", codeblock, DefaultConfig, codeblockToc, nil},
+		{"ignore", ignore, DefaultConfig, ignoreToc, nil},
+		{"existing without force", basicToc, DefaultConfig, nil, ErrExistingToc},
+		{"existing with force", basicToc, &Config{Force: true}, basicToc, nil},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			got, gotErr := Insert(tc.in, tc.force)
+			got, gotErr := Insert(tc.in, tc.cfg)
 			if !reflect.DeepEqual(tc.want, got) {
 				t.Fatalf("expected: %s got: %s", string(got), string(tc.want))
 			}

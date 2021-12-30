@@ -53,7 +53,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	withToc, err := mdtoc.Insert(b, force)
+	cfg := mdtoc.Config{
+		Force: force,
+	}
+	withToc, err := mdtoc.Insert(b, &cfg)
 	if err != nil {
 		if err == mdtoc.ErrExistingToc {
 			log.Fatalf("%s. Use the -force flag to force overwrite.\n", err.Error())

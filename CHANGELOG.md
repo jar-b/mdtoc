@@ -5,6 +5,10 @@
 
 ### Added
 - Version (`-version`) CLI flag
+- Config struct to store insert settings
+
+### Changed
+- `Insert` function signature now accepts `*Config` type
 
 
 ## v0.3.0

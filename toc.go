@@ -22,12 +22,20 @@ var (
 	// table of contents
 	ErrExistingToc = errors.New("document has existing table of contents")
 
-	// headingRegex is the expression which will match non-title heading lines
-	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
-
 	// Version is the current library/CLI version
 	//go:embed VERSION
 	Version string
+
+	// DefaultConfig defines the default configuration settings
+	//
+	// These field values will align with the default flag values from the CLI
+	// - Force: false
+	DefaultConfig = &Config{
+		Force: false,
+	}
+
+	// headingRegex is the expression which will match non-title heading lines
+	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 )
 
 // Item represents a single line in the table of contents
@@ -40,6 +48,11 @@ type Item struct {
 // Toc stores table of contents metadata
 type Toc struct {
 	Items []Item
+}
+
+// Config stores settings to be used when inserting a new Toc
+type Config struct {
+	Force bool
 }
 
 // Bytes returns a markdown formatted slice of bytes
@@ -62,7 +75,7 @@ func (t *Toc) String() string {
 }
 
 // Insert returns a copy of an existing document with a table of contents inserted
-func Insert(b []byte, force bool) ([]byte, error) {
+func Insert(b []byte, cfg *Config) ([]byte, error) {
 	toc, err := New(b)
 	if err != nil {
 		return b, err
@@ -81,7 +94,7 @@ func Insert(b []byte, force bool) ([]byte, error) {
 		// handle any previously existing toc's
 		// begin comment, set flag and skip
 		if strings.EqualFold(tocBegin, line) {
-			if !force {
+			if !cfg.Force {
 				return nil, ErrExistingToc
 			}
 			inOld = true

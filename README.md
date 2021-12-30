@@ -77,7 +77,7 @@ func main() {
         fmt.Println(toc.String())
 
         // OR insert TOC into an existing document
-        out, _ := mdtoc.Insert(b, false)
+        out, _ := mdtoc.Insert(b, mdtoc.DefaultConfig)
         fmt.Println(string(out))
 }
 ```
