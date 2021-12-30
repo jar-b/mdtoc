@@ -32,11 +32,13 @@ Usage: mdtoc [flags] [filename]
 
 Flags:
   -dry-run
-    	print generated contents, but do not write to file (optional)
+        print generated contents, but do not write to file (optional)
   -force
-    	force overwrite of existing contents (optional)
+        force overwrite of existing contents (optional)
   -out string
         output file (optional, defaults to adding to source file)
+  -version
+        display version
 ```
 
 Examples:

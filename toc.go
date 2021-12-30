@@ -4,10 +4,17 @@ package mdtoc
 import (
 	"bufio"
 	"bytes"
+	_ "embed"
 	"errors"
 	"fmt"
 	"regexp"
 	"strings"
+)
+
+const (
+	tocBegin  = "<!--mdtoc: begin-->"
+	tocEnd    = "<!--mdtoc: end-->"
+	tocIgnore = "<!--mdtoc: ignore-->"
 )
 
 var (
@@ -18,9 +25,8 @@ var (
 	// headingRegex is the expression which will match non-title heading lines
 	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
-	tocBegin  = "<!--mdtoc: begin-->"
-	tocEnd    = "<!--mdtoc: end-->"
-	tocIgnore = "<!--mdtoc: ignore-->"
+	//go:embed VERSION
+	Version string
 )
 
 // Item represents a single line in the table of contents

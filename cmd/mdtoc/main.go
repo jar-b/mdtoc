@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	force, dryRun bool
-	out           string
+	force, dryRun, version bool
+	out                    string
 )
 
 func init() {
@@ -26,7 +26,13 @@ func main() {
 	flag.BoolVar(&force, "force", false, "force overwrite of existing contents (optional)")
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")
 	flag.StringVar(&out, "out", "", "output file (optional, defaults to adding to source file)")
+	flag.BoolVar(&version, "version", false, "display version")
 	flag.Parse()
+
+	if version {
+		fmt.Print(mdtoc.Version)
+		os.Exit(0)
+	}
 
 	if flag.NArg() != 1 {
 		log.Fatal("unexpected number of args")
