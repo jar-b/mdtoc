@@ -25,6 +25,7 @@ var (
 	// headingRegex is the expression which will match non-title heading lines
 	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
 
+	// Version is the current library/CLI version
 	//go:embed VERSION
 	Version string
 )
