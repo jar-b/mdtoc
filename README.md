@@ -11,6 +11,7 @@ Generate a table of contents for an existing markdown document. The table of con
 * [CLI](#cli)
   * [Installation](#installation)
   * [Usage](#usage)
+  * [Examples](#examples)
 * [Library](#library)
   * [Usage](#usage-1)
 <!--mdtoc: end-->
@@ -41,7 +42,7 @@ Flags:
         display version
 ```
 
-Examples:
+### Examples
 
 ```sh
 # add new
@@ -52,6 +53,9 @@ mdtoc -dry-run mydoc.md
 
 # force overwrite of existing
 mdtoc -force mydoc.md
+
+# redirect output to new document
+mdtoc -out other.md mydoc.md
 ```
 
 ## Library
