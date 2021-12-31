@@ -29,10 +29,14 @@ var (
 	// DefaultConfig defines the default configuration settings
 	//
 	// These field values will align with the default flag values from the CLI
-	// - Force: false
 	DefaultConfig = &Config{
-		Force: false,
+		Force:          false,
+		WithTocHeading: false,
+		TocHeading:     DefaultTocHeading,
 	}
+
+	// DefaultTocHeading is the default heading applied when enabled
+	DefaultTocHeading = "Table of Contents"
 
 	// headingRegex is the expression which will match non-title heading lines
 	headingRegex = regexp.MustCompile("^([#]{2,})[ ]+(.+)")
@@ -47,12 +51,15 @@ type Item struct {
 
 // Toc stores table of contents metadata
 type Toc struct {
-	Items []Item
+	Items  []Item
+	Config *Config
 }
 
 // Config stores settings to be used when inserting a new Toc
 type Config struct {
-	Force bool
+	Force          bool
+	WithTocHeading bool
+	TocHeading     string
 }
 
 // Bytes returns a markdown formatted slice of bytes
@@ -61,6 +68,9 @@ func (t *Toc) Bytes() []byte {
 	w := bytes.NewBuffer(buf)
 
 	w.WriteString(fmt.Sprintf("%s\n", tocBegin))
+	if t.Config != nil && t.Config.WithTocHeading {
+		w.WriteString(fmt.Sprintf("## %s %s\n\n", t.Config.TocHeading, tocIgnore))
+	}
 	for _, item := range t.Items {
 		w.WriteString(fmt.Sprintf("%s* [%s](#%s)\n", strings.Repeat(" ", item.Indent*2), item.Text, item.Link))
 	}
@@ -80,6 +90,7 @@ func Insert(b []byte, cfg *Config) ([]byte, error) {
 	if err != nil {
 		return b, err
 	}
+	toc.Config = cfg
 
 	var new []byte
 	buf := bytes.NewBuffer(new)
@@ -129,7 +140,7 @@ func Insert(b []byte, cfg *Config) ([]byte, error) {
 
 // New extacts table of contents attributes from an existing document
 func New(b []byte) (*Toc, error) {
-	toc := Toc{}
+	toc := Toc{Config: DefaultConfig}
 
 	var inCodeBlock bool
 
@@ -181,9 +192,9 @@ func New(b []byte) (*Toc, error) {
 	return &toc, nil
 }
 
-// textToLink returns the header link formatted version of a string
+// textToLink returns the heading link formatted version of a string
 //
-// ex. `Header One Two` = `header-one-two`
+// ex. `Heading One Two` = `heading-one-two`
 func textToLink(s string) string {
 	// TODO: find a more comprehensive/formally documented list of these
 	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "", "`", "", `"`, "", `'`, "", "{", "", "}", "")

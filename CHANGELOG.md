@@ -1,11 +1,12 @@
 # Changelog
 
 
-## Unreleased
+## v0.4.0
 
 ### Added
 - Version (`-version`) CLI flag
 - Config struct to store insert settings
+- Flags/configuration to enable optional TOC headings (`-with-toc-heading`, `-toc-heading`)
 
 ### Changed
 - `Insert` function signature now accepts `*Config` type
@@ -24,7 +25,7 @@
 ## v0.2.1
 
 ### Fixed
-- Ignore lines matching header regex when inside code blocks
+- Ignore lines matching heading regex when inside code blocks
 
 
 ## v0.2.0

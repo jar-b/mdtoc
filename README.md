@@ -38,8 +38,12 @@ Flags:
         force overwrite of existing contents (optional)
   -out string
         output file (optional, defaults to adding to source file)
+  -toc-heading string
+        contents heading (-with-toc-heading must be specified) (default "Table of Contents")
   -version
         display version
+  -with-toc-heading
+        include a heading with the generated contents (optional)
 ```
 
 ### Examples
@@ -56,6 +60,9 @@ mdtoc -force mydoc.md
 
 # redirect output to new document
 mdtoc -out other.md mydoc.md
+
+# with custom heading
+mdtoc -with-toc-heading -toc-heading "document stuff" mydoc.md
 ```
 
 ## Library

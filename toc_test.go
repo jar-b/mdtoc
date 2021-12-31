@@ -18,6 +18,8 @@ func TestInsert(t *testing.T) {
 	codeblockToc, _ := os.ReadFile("testdata/codeblock_toc.md")
 	ignore, _ := os.ReadFile("testdata/ignore.md")
 	ignoreToc, _ := os.ReadFile("testdata/ignore_toc.md")
+	customHeading, _ := os.ReadFile("testdata/custom_heading.md")
+	customHeadingToc, _ := os.ReadFile("testdata/custom_heading_toc.md")
 
 	tt := []struct {
 		name    string
@@ -33,6 +35,7 @@ func TestInsert(t *testing.T) {
 		{"ignore", ignore, DefaultConfig, ignoreToc, nil},
 		{"existing without force", basicToc, DefaultConfig, nil, ErrExistingToc},
 		{"existing with force", basicToc, &Config{Force: true}, basicToc, nil},
+		{"custom heading", customHeading, &Config{WithTocHeading: true, TocHeading: "Contents"}, customHeadingToc, nil},
 	}
 
 	for _, tc := range tt {
@@ -61,7 +64,9 @@ func TestNew(t *testing.T) {
 				Items: []Item{
 					{Indent: 0, Text: "Heading 1", Link: "heading-1"},
 					{Indent: 1, Text: "Heading 2", Link: "heading-2"},
-				}},
+				},
+				Config: DefaultConfig,
+			},
 		},
 	}
 

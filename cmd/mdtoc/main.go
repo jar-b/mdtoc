@@ -10,8 +10,10 @@ import (
 )
 
 var (
-	force, dryRun, version bool
-	out                    string
+	force, dryRun, withTocHeading, version bool
+
+	out        string
+	tocHeading string = mdtoc.DefaultTocHeading
 )
 
 func init() {
@@ -26,6 +28,8 @@ func main() {
 	flag.BoolVar(&force, "force", false, "force overwrite of existing contents (optional)")
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")
 	flag.StringVar(&out, "out", "", "output file (optional, defaults to adding to source file)")
+	flag.BoolVar(&withTocHeading, "with-toc-heading", false, "include a heading with the generated contents (optional)")
+	flag.StringVar(&tocHeading, "toc-heading", tocHeading, "contents heading (-with-toc-heading must be specified)")
 	flag.BoolVar(&version, "version", false, "display version")
 	flag.Parse()
 
@@ -54,7 +58,9 @@ func main() {
 	}
 
 	cfg := mdtoc.Config{
-		Force: force,
+		Force:          force,
+		WithTocHeading: withTocHeading,
+		TocHeading:     tocHeading,
 	}
 	withToc, err := mdtoc.Insert(b, &cfg)
 	if err != nil {

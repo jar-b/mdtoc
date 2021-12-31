@@ -1,5 +1,5 @@
 # Example Document
-An example document with headers including special/uncommon characters to test generating links.
+An example document with headings including special/uncommon characters to test generating links.
 
 <!--mdtoc: begin-->
 * [With/Slash](#withslash)
