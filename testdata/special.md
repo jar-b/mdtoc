@@ -20,3 +20,5 @@ An example document with headings including special/uncommon characters to test 
 ## 'With single quotes'
 
 ## {With braces}
+
+## (With parenthesis)

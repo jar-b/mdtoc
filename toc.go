@@ -197,7 +197,22 @@ func New(b []byte) (*Toc, error) {
 // ex. `Heading One Two` = `heading-one-two`
 func textToLink(s string) string {
 	// TODO: find a more comprehensive/formally documented list of these
-	rep := strings.NewReplacer(" ", "-", "/", "", ",", "", ".", "", "+", "", ":", "", ";", "", "`", "", `"`, "", `'`, "", "{", "", "}", "")
+	rep := strings.NewReplacer(
+		" ", "-",
+		"/", "",
+		",", "",
+		".", "",
+		"+", "",
+		":", "",
+		";", "",
+		"`", "",
+		`"`, "",
+		`'`, "",
+		"{", "",
+		"}", "",
+		"(", "",
+		")", "",
+	)
 	return strings.ToLower(rep.Replace(s))
 }
 

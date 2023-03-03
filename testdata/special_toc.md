@@ -12,6 +12,7 @@ An example document with headings including special/uncommon characters to test 
 * ["With double quotes"](#with-double-quotes)
 * ['With single quotes'](#with-single-quotes)
 * [{With braces}](#with-braces)
+* [(With parenthesis)](#with-parenthesis)
 <!--mdtoc: end-->
 ## With/Slash
 
@@ -32,3 +33,5 @@ An example document with headings including special/uncommon characters to test 
 ## 'With single quotes'
 
 ## {With braces}
+
+## (With parenthesis)
