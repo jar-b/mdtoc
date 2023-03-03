@@ -1,6 +1,12 @@
 # Changelog
 
 
+## v0.4.1
+
+### Fixed
+- Properly handle parenthesis in anchor links
+
+
 ## v0.4.0
 
 ### Added
