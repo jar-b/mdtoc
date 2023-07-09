@@ -16,6 +16,10 @@ cover: test ## Display test coverage report
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: lint
+lint: ## Lint source code
+	@golangci-lint run ./...
+
 # This should only be run when significant, breaking changes are made to
 # the code generation and updates to the expected markdown cannot be
 # made by hand
