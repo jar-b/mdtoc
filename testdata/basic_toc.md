@@ -11,6 +11,7 @@ An example document with no existing table of contents, but headings of varying 
     * [Nest again](#nest-again)
       * [Nest a third time](#nest-a-third-time)
 <!--mdtoc: end-->
+
 ## Heading 1
 
 ### A sub-bullet

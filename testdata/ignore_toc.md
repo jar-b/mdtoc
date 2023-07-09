@@ -6,6 +6,7 @@ An example document with some headings excluded by using the `<!--mdtoc: ignore-
   * [Another](#another)
 * [Heading 2](#heading-2)
 <!--mdtoc: end-->
+
 ## Heading 1
 
 ### A sub-bullet <!--mdtoc: ignore-->

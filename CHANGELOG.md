@@ -1,6 +1,12 @@
 # Changelog
 
 
+## v0.4.2
+
+### Fixed
+- Preserve spacing after TOC on overwrite 
+
+
 ## v0.4.1
 
 ### Fixed

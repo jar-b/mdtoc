@@ -14,6 +14,7 @@ An example document with headings including special/uncommon characters to test 
 * [{With braces}](#with-braces)
 * [(With parenthesis)](#with-parenthesis)
 <!--mdtoc: end-->
+
 ## With/Slash
 
 ## With_Underscore

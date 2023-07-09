@@ -6,6 +6,7 @@ An example document with code blocks containing `#` characters to verify these a
 * [Heading 2](#heading-2)
 * [Heading 3](#heading-3)
 <!--mdtoc: end-->
+
 ## Heading 1
 
 ```

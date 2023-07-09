@@ -111,8 +111,10 @@ func Insert(b []byte, cfg *Config) ([]byte, error) {
 			inOld = true
 			continue
 		}
-		// end comment, reset flag and skip
+		// end comment, write toc in same location and reset flag
 		if inOld && strings.EqualFold(line, tocEnd) {
+			buf.Write(toc.Bytes())
+			newAdded = true
 			inOld = false
 			continue
 		}
@@ -123,12 +125,11 @@ func Insert(b []byte, cfg *Config) ([]byte, error) {
 
 		// when the first non-title heading is encoutered, insert new toc just before it
 		if !newAdded && headingRegex.FindStringSubmatch(line) != nil {
-			buf.Write(toc.Bytes())
+			buf.Write(append(toc.Bytes(), []byte("\n")...))
 			newAdded = true
 		}
 
-		buf.Write(scanner.Bytes())
-		buf.Write([]byte("\n"))
+		buf.Write(append(scanner.Bytes(), []byte("\n")...))
 	}
 
 	if err := scanner.Err(); err != nil {

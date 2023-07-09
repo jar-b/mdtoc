@@ -8,6 +8,7 @@ An example document with repeated heading text to verify link generation handles
   * [Testing](#testing-3)
 * [Testing](#testing-4)
 <!--mdtoc: end-->
+
 ## Testing
 ### Testing
 #### Testing
