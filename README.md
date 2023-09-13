@@ -19,10 +19,10 @@ Generate a table of contents for an existing markdown document. The table of con
 
 ### Installation
 
-Via `go get`:
+Via `go install`:
 
 ```sh
-go get github.com/jar-b/mdtoc/cmd/mdtoc
+go install github.com/jar-b/mdtoc/cmd/mdtoc@latest
 ```
 
 ### Usage
