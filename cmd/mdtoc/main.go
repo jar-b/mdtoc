@@ -16,15 +16,13 @@ var (
 	tocHeading string = mdtoc.DefaultTocHeading
 )
 
-func init() {
+func main() {
 	// slightly better usage output
 	flag.Usage = func() {
+		fmt.Fprint(flag.CommandLine.Output(), "Generate a table of contents for an existing markdown document.\n\n")
 		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [flags] [filename]\n\nFlags:\n", os.Args[0])
 		flag.PrintDefaults()
 	}
-}
-
-func main() {
 	flag.BoolVar(&force, "force", false, "force overwrite of existing contents (optional)")
 	flag.BoolVar(&dryRun, "dry-run", false, "print generated contents, but do not write to file (optional)")
 	flag.StringVar(&out, "out", "", "output file (optional, defaults to adding to source file)")

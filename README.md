@@ -29,6 +29,8 @@ go install github.com/jar-b/mdtoc/cmd/mdtoc@latest
 
 ```
 $ mdtoc -h
+Generate a table of contents for an existing markdown document.
+
 Usage: mdtoc [flags] [filename]
 
 Flags:
